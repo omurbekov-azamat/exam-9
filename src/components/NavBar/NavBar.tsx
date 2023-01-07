@@ -4,12 +4,12 @@ import {NavLink} from "react-router-dom";
 const NavBar = () => {
   return (
     <div className="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
-      <div className="container d-flex justify-content-between">
+      <div className="container d-flex justify-content-between" style={{width: '700px'}}>
         <NavLink to='/' className="navbar-brand">Finance Tracker</NavLink>
         <div>
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <NavLink to="Categories" className="nav-link">
+              <NavLink to="categories" className="nav-link">
                 Categories
               </NavLink>
             </li>

@@ -6,8 +6,7 @@ const Home = () => {
   return (
     <>
       <NavBar/>
-      <div className='container'>
-        <p>Hello World!</p>
+      <div className='container' style={{width: '700px'}}>
         <Outlet/>
       </div>
     </>
