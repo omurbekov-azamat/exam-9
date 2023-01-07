@@ -13,6 +13,7 @@ import {closeModalAddTransaction, selectModalTransaction, selectSendTransaction}
 interface Props {
   existingTransaction?: TransactionMutation;
   onSubmit: (element: Transaction) => void;
+  isEdit?: boolean;
 }
 
 const initialState: TransactionMutation = {
@@ -23,7 +24,7 @@ const initialState: TransactionMutation = {
 
 type ChangedElement = HTMLInputElement | HTMLSelectElement;
 
-const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = initialState}) => {
+const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = initialState, isEdit}) => {
   const [transaction, setTransaction] = useState<TransactionMutation>(existingTransaction);
   const categories = useAppSelector(selectElementsCategories);
   const show = useAppSelector(selectModalTransaction);
@@ -66,7 +67,7 @@ const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = i
         <div className='modal-dialog' onClick={e => e.stopPropagation()}>
           <div className='modal-content'>
             <div className='text-center'>
-              <h4 className='modal-title fs-5'>Add new Transaction</h4>
+              <h4 className='modal-title fs-5'>{isEdit ? 'Edit Transaction' : 'Add new Transaction'}</h4>
             </div>
             <div className='p-3'>
               <form onSubmit={onFormSubmit}>
@@ -106,15 +107,18 @@ const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = i
                 </div>
                 <div className='p-1'>
                   <label htmlFor='amount'>Amount</label>
-                  <input
-                    type='number'
-                    name='amount'
-                    id='amount'
-                    className='form-control mt-2'
-                    required
-                    value={transaction.amount}
-                    onChange={onChangeTransaction}
-                  />
+                  <div className='d-flex align-items-center mt-2'>
+                    <input
+                      type='number'
+                      name='amount'
+                      id='amount'
+                      className='form-control'
+                      required
+                      value={transaction.amount}
+                      onChange={onChangeTransaction}
+                    />
+                    <span className='text-uppercase border rounded-3 p-2'>kgs</span>
+                  </div>
                 </div>
                 <div className='text-center mt-2'>
                   <button

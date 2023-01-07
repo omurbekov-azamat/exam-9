@@ -2,6 +2,7 @@ import {ApiTransaction, ApiTransactionList, Transaction} from "../types";
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../axiosApi";
 import {AppDispatch} from "../app/store";
+import dayjs from "dayjs";
 
 export const fetchTransactions = createAsyncThunk<ApiTransaction[], undefined> (
   'transactions/fetchTransactions',
@@ -17,6 +18,7 @@ export const fetchTransactions = createAsyncThunk<ApiTransaction[], undefined> (
 
         return {
           ...transaction,
+          date: dayjs(transaction.date).format('DD.MM.YYYY HH:mm:ss'),
           id,
         }
       });

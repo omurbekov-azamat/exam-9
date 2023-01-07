@@ -10,6 +10,7 @@ import {Category} from "../../types";
 interface Props {
   existingCategory?: Category;
   onSubmit: (element: Category) => void;
+  isEdit?: boolean;
 }
 
 const initialState: Category = {
@@ -19,7 +20,7 @@ const initialState: Category = {
 
 type ChangedElement = HTMLInputElement | HTMLSelectElement;
 
-const ModalAddCategory: React.FC<Props> = ({onSubmit, existingCategory = initialState}) => {
+const ModalAddCategory: React.FC<Props> = ({onSubmit, existingCategory = initialState, isEdit}) => {
   const [category, setCategory] = useState<Category>(existingCategory);
   const dispatch = useAppDispatch();
   const show = useAppSelector(selectModalAddCategory)
@@ -57,7 +58,7 @@ const ModalAddCategory: React.FC<Props> = ({onSubmit, existingCategory = initial
         <div className='modal-dialog' onClick={e => e.stopPropagation()}>
           <div className='modal-content'>
             <div className='text-center'>
-              <h4 className='modal-title fs-5'>Add new category</h4>
+              <h4 className='modal-title fs-5'>{isEdit ? 'Edit Category' : 'Add new Category'}</h4>
             </div>
             <div className='p-3'>
               <form onSubmit={onFormSubmit}>

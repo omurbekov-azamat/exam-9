@@ -33,6 +33,7 @@ const EditCategory = () => {
         <ModalAddCategory
           existingCategory={editCategory}
           onSubmit={onEdit}
+          isEdit
         />
       )}
     </div>

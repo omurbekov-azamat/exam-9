@@ -35,7 +35,11 @@ const EditTransaction = () => {
     <div>
       {loading && <Spinner/>}
       {existingTransaction && (
-        <ModalAddTransaction onSubmit={onEdit} existingTransaction={existingTransaction}/>
+        <ModalAddTransaction
+          onSubmit={onEdit}
+          existingTransaction={existingTransaction}
+          isEdit
+        />
       )}
     </div>
   );
