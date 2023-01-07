@@ -2,17 +2,19 @@ import React from 'react';
 import {ApiTransaction} from "../../types";
 import dayjs from "dayjs";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {selectLoadingDeleteTransaction} from "../../store/categories";
-import {deleteTransaction} from "../../store/categoriesThunks";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
+import {useNavigate} from "react-router-dom";
+import {deleteTransaction} from "../../store/transacationsThunks";
+import {selectDeleteTransactionLoading} from "../../store/transactions";
 
 interface Props{
   element: ApiTransaction,
 }
 
 const ElementTransaction: React.FC<Props> = ({element}) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const deleteLoading = useAppSelector(selectLoadingDeleteTransaction);
+  const deleteLoading = useAppSelector(selectDeleteTransactionLoading);
 
   const onDeleteTransaction = async (id: string) => {
     await dispatch(deleteTransaction(id));
@@ -40,6 +42,7 @@ const ElementTransaction: React.FC<Props> = ({element}) => {
         <button
           className='me-3 btn btn-success'
           disabled={deleteLoading ? deleteLoading === element.id : false}
+          onClick={() => navigate('/edit-transaction/' + element.id)}
         >
           Edit
         </button>

@@ -1,12 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {
-  ApiCategory,
-  ApiCategoryList,
-  ApiTransaction,
-  ApiTransactionList,
-  Category,
-  Transaction,
-} from "../types";
+import {ApiCategory, ApiCategoryList, Category,} from "../types";
 import axiosApi from "../axiosApi";
 import {AppDispatch} from "../app/store";
 
@@ -69,43 +62,5 @@ export const deleteCategory = createAsyncThunk<void, string, {dispatch: AppDispa
   async (id, thunkAPI) => {
     await axiosApi.delete('/categories/' + id + '.json');
     thunkAPI.dispatch(fetchCategories());
-  }
-);
-
-export const createTransaction = createAsyncThunk<void, Transaction>(
-  'categories/createTransaction',
-  async (transaction) => {
-    await axiosApi.post('/transactions.json', transaction);
-  }
-);
-
-export const fetchTransactions = createAsyncThunk<ApiTransaction[], undefined> (
-  'categories/fetchTransactions',
-  async () => {
-    const transactionsResponse = await axiosApi.get<ApiTransactionList | null>('/transactions.json');
-    const transactions = transactionsResponse.data;
-
-    let newTransactions: ApiTransaction[] = [];
-
-    if (transactions) {
-      newTransactions = Object.keys(transactions).map(id => {
-        const transaction = transactions[id];
-
-        return {
-          ...transaction,
-          id,
-        }
-      });
-    }
-
-    return newTransactions;
-  }
-);
-
-export const deleteTransaction = createAsyncThunk<void, string, {dispatch: AppDispatch}>(
-  'categories/deleteTransaction',
-  async (id, thunkAPI) => {
-    await axiosApi.delete('/transactions/' + id + '.json');
-    thunkAPI.dispatch(fetchTransactions());
   }
 );

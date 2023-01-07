@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../app/hook";
-import {showModalAddTransaction} from "../../store/categories";
+import {showModalAddTransaction} from "../../store/transactions";
 
 const NavBar = () => {
   const dispatch = useAppDispatch();

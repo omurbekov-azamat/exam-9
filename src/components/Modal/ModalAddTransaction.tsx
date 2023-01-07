@@ -4,13 +4,11 @@ import {TYPE} from "../../constants";
 import {Transaction, TransactionMutation} from "../../types";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
 import {
-  closeModalAddTransaction,
   selectElementsCategories,
-  selectLoadingTransactionModal,
-  selectModalAddTransaction
 } from "../../store/categories";
 import {useNavigate} from "react-router-dom";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
+import {closeModalAddTransaction, selectModalTransaction, selectSendTransaction} from "../../store/transactions";
 
 interface Props {
   existingTransaction?: TransactionMutation;
@@ -28,8 +26,8 @@ type ChangedElement = HTMLInputElement | HTMLSelectElement;
 const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = initialState}) => {
   const [transaction, setTransaction] = useState<TransactionMutation>(existingTransaction);
   const categories = useAppSelector(selectElementsCategories);
-  const show = useAppSelector(selectModalAddTransaction);
-  const loading = useAppSelector(selectLoadingTransactionModal);
+  const show = useAppSelector(selectModalTransaction);
+  const loading = useAppSelector(selectSendTransaction);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -98,10 +96,11 @@ const ModalAddTransaction: React.FC<Props> = ({onSubmit, existingTransaction = i
                     value={transaction.name}
                     onChange={onChangeTransaction}
                   >
-                    {categories.map(item => (
-                      <option key={item.name} value={item.name}>
-                        {item.name}
-                      </option>
+                    {transaction.name ? <option value={transaction.name}
+                    >{transaction.name}</option> : categories.map(item => (
+                    <option key={item.name} value={item.name}>
+                      {item.name}
+                    </option>
                     ))}
                   </select>
                 </div>

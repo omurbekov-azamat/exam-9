@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {selectLoadingFetchTransactions, selectTransactions} from "../../store/categories";
 import {useLocation} from "react-router-dom";
-import {fetchTransactions} from "../../store/categoriesThunks";
 import ElementTransaction from "./ElementTransaction";
 import Spinner from "../Spinner/Spinner";
+import {selectFetchLoading, selectTransaction} from "../../store/transactions";
+import {fetchTransactions} from "../../store/transacationsThunks";
+
 
 const ElementTransactions = () => {
   const dispatch = useAppDispatch();
-  const transactions = useAppSelector(selectTransactions);
-  const loading = useAppSelector(selectLoadingFetchTransactions);
+  const transactions = useAppSelector(selectTransaction);
+  const loading = useAppSelector(selectFetchLoading);
   const location = useLocation();
 
   useEffect(() => {

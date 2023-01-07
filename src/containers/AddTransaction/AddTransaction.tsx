@@ -3,7 +3,8 @@ import {Transaction} from "../../types";
 import ModalAddTransaction from "../../components/Modal/ModalAddTransaction";
 import {useAppDispatch} from "../../app/hook";
 import {useLocation, useNavigate} from "react-router-dom";
-import {createTransaction, fetchCategories} from "../../store/categoriesThunks";
+import {fetchCategories} from "../../store/categoriesThunks";
+import {createTransaction} from "../../store/transacationsThunks";
 
 const AddTransaction = () => {
   const dispatch = useAppDispatch();
