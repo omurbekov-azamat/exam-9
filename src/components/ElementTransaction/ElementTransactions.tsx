@@ -21,12 +21,14 @@ const ElementTransactions = () => {
   return (
     <div className='mt-3'>
       {loading && <Spinner/>}
-      {transactions.map((item) => (
-        <ElementTransaction
-          key={item.id}
-          element={item}
-        />
-      ))}
+      <div className='overflow-auto' style={{height: '500px'}}>
+        {transactions.map((item) => (
+          <ElementTransaction
+            key={item.id}
+            element={item}
+          />
+        ))}
+      </div>
     </div>
   );
 };

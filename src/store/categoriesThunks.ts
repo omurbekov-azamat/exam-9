@@ -101,3 +101,11 @@ export const fetchTransactions = createAsyncThunk<ApiTransaction[], undefined> (
     return newTransactions;
   }
 );
+
+export const deleteTransaction = createAsyncThunk<void, string, {dispatch: AppDispatch}>(
+  'categories/deleteTransaction',
+  async (id, thunkAPI) => {
+    await axiosApi.delete('/transactions/' + id + '.json');
+    thunkAPI.dispatch(fetchTransactions());
+  }
+);

@@ -3,7 +3,7 @@ import {RootState} from "../app/store";
 import {
   createCategory,
   createTransaction,
-  deleteCategory,
+  deleteCategory, deleteTransaction,
   fetchCategories,
   fetchOneCategory, fetchTransactions,
   updateCategory
@@ -22,6 +22,7 @@ interface ItemsState {
   loadingTransactionModal: boolean;
   loadingFetchTransactions: boolean;
   items: ApiTransaction[]
+  loadingDeleteTransaction: false | string;
 }
 
 const initialState: ItemsState = {
@@ -36,6 +37,7 @@ const initialState: ItemsState = {
   loadingTransactionModal: false,
   loadingFetchTransactions: false,
   items: [],
+  loadingDeleteTransaction: false,
 }
 
 export const categories = createSlice({
@@ -125,6 +127,15 @@ export const categories = createSlice({
     builder.addCase(fetchTransactions.rejected, (state) => {
       state.loadingFetchTransactions = false;
     });
+    builder.addCase(deleteTransaction.pending, (state, {meta}) => {
+      state.loadingDeleteTransaction = meta.arg;
+    });
+    builder.addCase(deleteTransaction.fulfilled,  (state) => {
+      state.loadingDeleteTransaction = false;
+    });
+    builder.addCase(deleteTransaction.rejected,  (state) => {
+      state.loadingDeleteTransaction = false;
+    });
   }
 });
 
@@ -140,3 +151,4 @@ export const selectModalAddTransaction = (state: RootState) => state.categories.
 export const selectLoadingTransactionModal = (state: RootState) => state.categories.loadingTransactionModal;
 export const selectLoadingFetchTransactions = (state: RootState) => state.categories.loadingFetchTransactions;
 export const selectTransactions = (state: RootState) => state.categories.items;
+export const selectLoadingDeleteTransaction = (state: RootState) => state.categories.loadingDeleteTransaction;
