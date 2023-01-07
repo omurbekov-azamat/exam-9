@@ -1,27 +1,35 @@
 import React, {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../app/hook";
-import {createCategory} from "../../store/categoriesThunks";
-import {closeModalAddCategory, selectCreateLoadingNewCategory, selectModalAddCategory} from "../../store/categories";
-import {TYPE} from "../../constants";
+import {closeModalAddCategory, selectCreateLoadingNewCategory, selectModalAddCategory,} from "../../store/categories";
 import Backdrop from "../Backdrop/Backdrop";
 import ButtonSpinner from "../Spinner/ButtonSpinner";
-import {FormCategory} from "../../types";
+import {TYPE} from "../../constants";
+import {Category} from "../../types";
+
+interface Props {
+  existingCategory?: Category;
+  onSubmit: (element: Category) => void;
+}
+
+const initialState: Category = {
+  type: '',
+  name: '',
+}
 
 type ChangedElement = HTMLInputElement | HTMLSelectElement;
 
-const ModalAddCategory = () => {
+const ModalAddCategory: React.FC<Props> = ({onSubmit, existingCategory = initialState}) => {
+  const [category, setCategory] = useState<Category>(existingCategory);
   const dispatch = useAppDispatch();
-  const showModal = useAppSelector(selectModalAddCategory);
+  const show = useAppSelector(selectModalAddCategory)
   const loading = useAppSelector(selectCreateLoadingNewCategory);
+  const navigate = useNavigate();
 
   const closeModal = () => {
     dispatch(closeModalAddCategory());
+    navigate('/categories');
   };
-
-  const [category, setCategory] = useState<FormCategory>({
-    type: '',
-    name: '',
-  });
 
   const onCategoryChange = (evants: React.ChangeEvent<ChangedElement>) => {
     const {name, value} = evants.target;
@@ -33,7 +41,7 @@ const ModalAddCategory = () => {
 
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(createCategory(category))
+    onSubmit(category);
     setCategory({
       type: '',
       name: '',
@@ -42,9 +50,9 @@ const ModalAddCategory = () => {
 
   return (
     <>
-      <Backdrop show={showModal}/>
+      <Backdrop show={show}/>
       <div className='modal show'
-           style={{display: showModal ? 'block' : 'none'}}
+           style={{display: show ? 'block': 'none'}}
       >
         <div className='modal-dialog' onClick={e => e.stopPropagation()}>
           <div className='modal-content'>

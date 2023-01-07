@@ -2,14 +2,14 @@ import React from 'react';
 import {NavLink, Outlet} from "react-router-dom";
 import {useAppDispatch} from "../../app/hook";
 import {showModalAddCategory} from "../../store/categories";
+import ElementCategories from "../../components/ElementCategory/ElementCategories";
 
 const Categories = () => {
   const dispatch = useAppDispatch();
 
   const addCategory = () => {
     dispatch(showModalAddCategory())
-  }
-
+  };
 
   return (
     <div>
@@ -23,6 +23,7 @@ const Categories = () => {
           Add
         </NavLink>
       </div>
+      <ElementCategories/>
       <Outlet/>
     </div>
   );
