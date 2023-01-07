@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {ApiCategory, ApiCategoryList, Category} from "../types";
+import {ApiCategory, ApiCategoryList, Category, Transaction} from "../types";
 import axiosApi from "../axiosApi";
 import {AppDispatch} from "../app/store";
 
@@ -8,7 +8,7 @@ export const createCategory = createAsyncThunk<void, Category>(
   async (category) => {
     await axiosApi.post('/categories.json', category);
   }
-)
+);
 
 export const fetchCategories = createAsyncThunk<ApiCategory[], undefined>(
   'categories/fetchAllCategory',
@@ -62,5 +62,12 @@ export const deleteCategory = createAsyncThunk<void, string, {dispatch: AppDispa
   async (id, thunkAPI) => {
     await axiosApi.delete('/categories/' + id + '.json');
     thunkAPI.dispatch(fetchCategories());
+  }
+);
+
+export const createTransaction = createAsyncThunk<void, Transaction>(
+  'categories/createTransaction',
+  async (transaction) => {
+    await axiosApi.post('/transactions.json', transaction);
   }
 );

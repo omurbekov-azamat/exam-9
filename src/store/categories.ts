@@ -1,6 +1,13 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {RootState} from "../app/store";
-import {createCategory, deleteCategory, fetchCategories, fetchOneCategory, updateCategory} from "./categoriesThunks";
+import {
+  createCategory,
+  createTransaction,
+  deleteCategory,
+  fetchCategories,
+  fetchOneCategory,
+  updateCategory
+} from "./categoriesThunks";
 import {ApiCategory, Category} from "../types";
 
 interface ItemsState {
@@ -11,6 +18,8 @@ interface ItemsState {
   oneCategoryEdit: Category | null;
   fetchOneCategory: boolean;
   deleteCategoryLoading: false | string;
+  modalAddTransaction: boolean;
+  loadingTransactionModal: boolean;
 }
 
 const initialState: ItemsState = {
@@ -21,6 +30,8 @@ const initialState: ItemsState = {
   oneCategoryEdit: null,
   fetchOneCategory: false,
   deleteCategoryLoading: false,
+  modalAddTransaction: false,
+  loadingTransactionModal: false,
 }
 
 export const categories = createSlice({
@@ -32,6 +43,12 @@ export const categories = createSlice({
     },
     closeModalAddCategory: (state) => {
       state.modalAddCategory = false;
+    },
+    showModalAddTransaction: (state)=> {
+      state.modalAddTransaction = true;
+    },
+    closeModalAddTransaction: (state) => {
+      state.modalAddTransaction = false;
     },
   },
   extraReducers: (builder) => {
@@ -84,15 +101,26 @@ export const categories = createSlice({
     });
     builder.addCase(deleteCategory.rejected, (state) => {
       state.deleteCategoryLoading = false;
-    })
+    });
+    builder.addCase(createTransaction.pending, (state) => {
+      state.loadingTransactionModal = true;
+    });
+    builder.addCase(createTransaction.fulfilled, (state) => {
+      state.loadingTransactionModal = false;
+    });
+    builder.addCase(createTransaction.rejected, (state) => {
+      state.loadingTransactionModal = false;
+    });
   }
 });
 
 export const categoriesReducer = categories.reducer;
-export const {showModalAddCategory, closeModalAddCategory} = categories.actions;
+export const {showModalAddCategory, closeModalAddCategory, showModalAddTransaction, closeModalAddTransaction} = categories.actions;
 export const selectModalAddCategory = (state: RootState) => state.categories.modalAddCategory;
 export const selectCreateLoadingNewCategory = (state: RootState) => state.categories.createNewCategoryLoading;
 export const selectFetchAllCategories = (state: RootState) => state.categories.fetchAllCategories;
 export const selectElementsCategories = (state: RootState) => state.categories.elements;
 export const selectEditOneElement = (state: RootState) => state.categories.oneCategoryEdit;
 export const selectDeleteLoading = (state: RootState) => state.categories.deleteCategoryLoading;
+export const selectModalAddTransaction = (state: RootState) => state.categories.modalAddTransaction;
+export const selectLoadingTransactionModal = (state: RootState) => state.categories.loadingTransactionModal;

@@ -31,8 +31,8 @@ const ModalAddCategory: React.FC<Props> = ({onSubmit, existingCategory = initial
     navigate('/categories');
   };
 
-  const onCategoryChange = (evants: React.ChangeEvent<ChangedElement>) => {
-    const {name, value} = evants.target;
+  const onCategoryChange = (event: React.ChangeEvent<ChangedElement>) => {
+    const {name, value} = event.target;
     setCategory(prev => ({
       ...prev,
       [name]: value,

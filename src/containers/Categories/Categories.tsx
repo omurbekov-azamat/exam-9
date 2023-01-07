@@ -13,7 +13,7 @@ const Categories = () => {
 
   return (
     <div>
-      <div className='d-flex justify-content-between'>
+      <div className='d-flex justify-content-between align-items-center'>
         Categories
         <NavLink
           to="/categories/add-category"
