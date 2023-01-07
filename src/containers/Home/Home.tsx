@@ -8,7 +8,6 @@ const Home = () => {
     <>
       <NavBar/>
       <div className='container' style={{width: '700px'}}>
-        p123
         <Outlet/>
       </div>
     </>

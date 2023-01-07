@@ -5,10 +5,10 @@ import {
   createTransaction,
   deleteCategory,
   fetchCategories,
-  fetchOneCategory,
+  fetchOneCategory, fetchTransactions,
   updateCategory
 } from "./categoriesThunks";
-import {ApiCategory, Category} from "../types";
+import {ApiCategory, ApiTransaction, Category} from "../types";
 
 interface ItemsState {
   modalAddCategory: boolean;
@@ -20,6 +20,8 @@ interface ItemsState {
   deleteCategoryLoading: false | string;
   modalAddTransaction: boolean;
   loadingTransactionModal: boolean;
+  loadingFetchTransactions: boolean;
+  items: ApiTransaction[]
 }
 
 const initialState: ItemsState = {
@@ -32,6 +34,8 @@ const initialState: ItemsState = {
   deleteCategoryLoading: false,
   modalAddTransaction: false,
   loadingTransactionModal: false,
+  loadingFetchTransactions: false,
+  items: [],
 }
 
 export const categories = createSlice({
@@ -111,6 +115,16 @@ export const categories = createSlice({
     builder.addCase(createTransaction.rejected, (state) => {
       state.loadingTransactionModal = false;
     });
+    builder.addCase(fetchTransactions.pending, (state) => {
+      state.loadingFetchTransactions = true;
+    });
+    builder.addCase(fetchTransactions.fulfilled, (state,{payload: transactions}) => {
+      state.loadingFetchTransactions = false;
+      state.items = transactions;
+    });
+    builder.addCase(fetchTransactions.rejected, (state) => {
+      state.loadingFetchTransactions = false;
+    });
   }
 });
 
@@ -124,3 +138,5 @@ export const selectEditOneElement = (state: RootState) => state.categories.oneCa
 export const selectDeleteLoading = (state: RootState) => state.categories.deleteCategoryLoading;
 export const selectModalAddTransaction = (state: RootState) => state.categories.modalAddTransaction;
 export const selectLoadingTransactionModal = (state: RootState) => state.categories.loadingTransactionModal;
+export const selectLoadingFetchTransactions = (state: RootState) => state.categories.loadingFetchTransactions;
+export const selectTransactions = (state: RootState) => state.categories.items;

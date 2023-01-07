@@ -20,7 +20,7 @@ export interface TransactionMutation extends Category {
   amount: string;
 }
 
-export interface TransactionApi extends Transaction {
+export interface ApiTransaction extends Transaction {
   id: string;
 }
 

@@ -1,5 +1,12 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {ApiCategory, ApiCategoryList, Category, Transaction} from "../types";
+import {
+  ApiCategory,
+  ApiCategoryList,
+  ApiTransaction,
+  ApiTransactionList,
+  Category,
+  Transaction,
+} from "../types";
 import axiosApi from "../axiosApi";
 import {AppDispatch} from "../app/store";
 
@@ -69,5 +76,28 @@ export const createTransaction = createAsyncThunk<void, Transaction>(
   'categories/createTransaction',
   async (transaction) => {
     await axiosApi.post('/transactions.json', transaction);
+  }
+);
+
+export const fetchTransactions = createAsyncThunk<ApiTransaction[], undefined> (
+  'categories/fetchTransactions',
+  async () => {
+    const transactionsResponse = await axiosApi.get<ApiTransactionList | null>('/transactions.json');
+    const transactions = transactionsResponse.data;
+
+    let newTransactions: ApiTransaction[] = [];
+
+    if (transactions) {
+      newTransactions = Object.keys(transactions).map(id => {
+        const transaction = transactions[id];
+
+        return {
+          ...transaction,
+          id,
+        }
+      });
+    }
+
+    return newTransactions;
   }
 );
